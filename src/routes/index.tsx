@@ -620,7 +620,7 @@ function Landing() {
               Built for InBorderland 3.0. Engineered for every Blue Team that refuses to lose to latency.
             </p>
             <div className="mt-10 flex flex-wrap gap-4 justify-center">
-              <button className="font-mono text-[12px] tracking-[1.5px] uppercase font-bold px-8 py-4 rounded bg-orange text-white shadow-[0_10px_40px_var(--orange-glow)] hover:scale-[1.02] transition">
+              <button className="cta-btn-primary font-mono text-[12px] tracking-[1.5px] uppercase font-bold px-8 py-4 rounded text-white">
                 ./deploy --prod
               </button>
               <button className="font-mono text-[12px] tracking-[1.5px] uppercase px-8 py-4 rounded border border-orange/30 hover:border-orange hover:bg-orange/5 transition text-foreground">
