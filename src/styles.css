@@ -180,6 +180,69 @@
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
+@keyframes heat-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--orange-glow); }
+  50% { box-shadow: 0 0 0 8px transparent; }
+}
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.gradient-heading {
+  background: linear-gradient(135deg, var(--foreground) 0%, var(--orange) 60%, var(--spy-red-light) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.cta-btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--orange), var(--spy-red-light));
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+.cta-btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.cta-btn-primary:hover::before { transform: translateX(100%); }
+.cta-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 40px var(--orange-glow); }
+
+.heat-cell {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  background: oklch(0.55 0.16 40 / 0.08);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+.heat-cell:hover { transform: scale(1.15); background: var(--orange); }
+.heat-cell-hot { background: var(--orange); animation: heat-pulse 2.4s ease-in-out infinite; }
+.heat-cell-warm { background: oklch(0.55 0.16 40 / 0.55); }
+.heat-cell-mid { background: oklch(0.55 0.16 40 / 0.30); }
+
+.timeline-dot {
+  position: relative;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 4px oklch(0.55 0.16 40 / 0.18);
+}
+.timeline-dot::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid var(--orange);
+  animation: heat-pulse 2s ease-in-out infinite;
+}
+
 .cursor-blink { animation: blink-cursor 0.6s step-end infinite; }
 .animate-pulse-orange { animation: pulse-orange 2s ease-in-out infinite; }
 .animate-radar { animation: radar-sweep 3s linear infinite; transform-origin: left center; }
