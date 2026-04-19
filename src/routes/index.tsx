@@ -89,6 +89,28 @@ function Landing() {
         </div>
       </div>
 
+      {/* KPI STRIP */}
+      <div className="relative z-20 border-b border-border bg-[var(--phone-card)]">
+        <div className="mx-auto max-w-7xl px-8 py-7 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { k: "< 2s", v: "Mean detect time", sub: "across petabyte logs" },
+            { k: "14k/s", v: "Events ingested", sub: "ELK · Splunk · Wazuh" },
+            { k: "96.4%", v: "Detection accuracy", sub: "MITRE-mapped" },
+            { k: "1.2s", v: "SOAR response", sub: "auto-playbook dispatch" },
+          ].map((m) => (
+            <div key={m.v} className="text-center md:text-left">
+              <div className="font-display font-bold text-2xl md:text-3xl text-orange tracking-tight">
+                {m.k}
+              </div>
+              <div className="font-sans text-[13px] font-semibold text-foreground mt-1">{m.v}</div>
+              <div className="font-mono text-[10px] uppercase tracking-[1.5px] text-[var(--text-dim)] mt-0.5">
+                {m.sub}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* HERO — phone + side panels */}
       <section className="relative z-10 px-8 pt-16 pb-24">
         <div className="mx-auto max-w-7xl grid lg:grid-cols-[1fr_auto_1fr] gap-10 items-center">
