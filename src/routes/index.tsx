@@ -180,30 +180,30 @@ function Landing() {
 
           {/* Terminal mockup */}
           <div className="lg:col-span-5">
-            <div className="relative scanline rounded-lg border border-border bg-card shadow-cyan overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-2.5 bg-secondary border-b border-border">
-                <span className="w-2.5 h-2.5 rounded-full bg-destructive/80" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[oklch(0.82_0.18_75)]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-primary" />
-                <span className="ml-3 font-mono text-xs text-muted-foreground">
+            <div className="relative scanline rounded-xl border border-border terminal-surface shadow-glow overflow-hidden">
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-black/30 border-b border-white/10">
+                <span className="w-2.5 h-2.5 rounded-full bg-[oklch(0.65_0.22_25)]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[oklch(0.78_0.18_75)]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[oklch(0.78_0.20_155)]" />
+                <span className="ml-3 font-mono text-xs text-white/50">
                   sentinel@soc-node-01:~
                 </span>
               </div>
               <div className="p-5 font-mono text-sm space-y-2 min-h-[340px]">
-                <div className="text-muted-foreground">$ {typed}<span className="animate-blink text-primary">▋</span></div>
-                <div className="text-primary">[✓] connected to elk://siem.local:9200</div>
-                <div className="text-primary">[✓] co-pilot online — model: sentinel-ai/v3</div>
-                <div className="text-accent">[~] ingesting 14,221 events/sec</div>
-                <div className="pt-3 text-muted-foreground">┌─ ANOMALY DETECTED ──────────────┐</div>
-                <div className="text-destructive font-bold flex items-center gap-2">
+                <div className="text-white/50">$ <span className="text-white/90">{typed}</span><span className="animate-blink text-[oklch(0.85_0.22_155)]">▋</span></div>
+                <div className="text-[oklch(0.85_0.22_155)]">[✓] connected to elk://siem.local:9200</div>
+                <div className="text-[oklch(0.85_0.22_155)]">[✓] co-pilot online — model: sentinel-ai/v3</div>
+                <div className="text-[oklch(0.78_0.18_200)]">[~] ingesting 14,221 events/sec</div>
+                <div className="pt-3 text-white/40">┌─ ANOMALY DETECTED ──────────────┐</div>
+                <div className="text-[oklch(0.7_0.25_25)] font-bold flex items-center gap-2">
                   <AlertTriangle className="w-3.5 h-3.5" />
                   CRITICAL · lateral movement chain
                 </div>
-                <div className="text-foreground/80">  ↳ host: <span className="text-accent">WIN-DC-04</span></div>
-                <div className="text-foreground/80">  ↳ MITRE: <span className="text-primary">T1021.002 → T1078</span></div>
-                <div className="text-foreground/80">  ↳ playbook: <span className="text-primary">isolate_host.yml</span></div>
-                <div className="text-primary pt-2">[➜] response dispatched in 1.2s</div>
-                <div className="text-muted-foreground">└─────────────────────────────────┘</div>
+                <div className="text-white/70">  ↳ host: <span className="text-[oklch(0.78_0.18_200)]">WIN-DC-04</span></div>
+                <div className="text-white/70">  ↳ MITRE: <span className="text-[oklch(0.85_0.22_155)]">T1021.002 → T1078</span></div>
+                <div className="text-white/70">  ↳ playbook: <span className="text-[oklch(0.85_0.22_155)]">isolate_host.yml</span></div>
+                <div className="text-[oklch(0.85_0.22_155)] pt-2">[➜] response dispatched in 1.2s</div>
+                <div className="text-white/40">└─────────────────────────────────┘</div>
               </div>
             </div>
           </div>
