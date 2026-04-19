@@ -1,22 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import {
-  Shield,
-  Activity,
-  Bot,
-  Network,
-  Eye,
-  Zap,
-  Terminal,
-  AlertTriangle,
-  Lock,
-  GitBranch,
-  Radar,
-  ChevronRight,
-  Cpu,
-  Database,
-  ShieldAlert,
-} from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,293 +21,450 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const ATTACK_FEED = [
-  { time: "14:22:08", sev: "CRIT", src: "192.168.4.21", evt: "T1059 — Command & Scripting" },
-  { time: "14:22:11", sev: "HIGH", src: "10.0.2.18", evt: "T1110 — Brute Force / SSH" },
-  { time: "14:22:14", sev: "MED ", src: "172.16.8.3", evt: "T1046 — Network Scan" },
-  { time: "14:22:19", sev: "CRIT", src: "203.0.113.7", evt: "T1486 — Ransomware behavior" },
-  { time: "14:22:24", sev: "HIGH", src: "192.168.1.55", evt: "T1071 — C2 Beacon" },
-  { time: "14:22:29", sev: "LOW ", src: "10.0.0.4", evt: "T1003 — Credential dump attempt" },
+const FEED = [
+  { t: "14:22:08", sev: "CRIT", src: "192.168.4.21", evt: "T1059 — Command Scripting" },
+  { t: "14:22:11", sev: "HIGH", src: "10.0.2.18", evt: "T1110 — SSH Brute Force" },
+  { t: "14:22:14", sev: "MED ", src: "172.16.8.3", evt: "T1046 — Network Scan" },
+  { t: "14:22:19", sev: "CRIT", src: "203.0.113.7", evt: "T1486 — Ransomware behavior" },
+  { t: "14:22:24", sev: "HIGH", src: "192.168.1.55", evt: "T1071 — C2 Beacon" },
+  { t: "14:22:29", sev: "LOW ", src: "10.0.0.4", evt: "T1003 — Credential dump" },
 ];
 
 function Landing() {
   const [typed, setTyped] = useState("");
-  const fullCmd = "sentinel --analyze --siem=elk --copilot=on";
+  const cmd = "sentinel --analyze --siem=elk --copilot=on";
 
   useEffect(() => {
     let i = 0;
     const id = setInterval(() => {
       i++;
-      setTyped(fullCmd.slice(0, i));
-      if (i >= fullCmd.length) clearInterval(id);
+      setTyped(cmd.slice(0, i));
+      if (i >= cmd.length) clearInterval(id);
     }, 55);
     return () => clearInterval(id);
   }, []);
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden">
-      {/* Glow background */}
+    <div className="relative min-h-screen overflow-x-hidden bg-background">
+      {/* Background layers */}
+      <div className="grid-overlay pointer-events-none fixed inset-0 z-0" />
       <div
-        className="pointer-events-none fixed inset-0 -z-10"
-        style={{ background: "var(--gradient-glow)" }}
+        className="ambient-glow"
+        style={{ width: 900, height: 900, top: -300, left: "50%", transform: "translateX(-50%)" }}
+      />
+      <div
+        className="ambient-glow"
+        style={{ width: 700, height: 700, bottom: -200, right: -200, opacity: 0.12 }}
       />
 
-      {/* NAV */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded bg-gradient-cyber grid place-items-center shadow-glow">
-              <Shield className="w-4 h-4 text-primary-foreground" strokeWidth={2.5} />
-            </div>
-            <span className="font-mono font-bold tracking-tight text-lg">
-              SENTINEL<span className="text-primary">_</span>
-            </span>
-            <span className="hidden sm:inline-block ml-2 px-2 py-0.5 text-[10px] font-mono uppercase border border-primary/40 text-primary rounded">
-              v3.0 / inBorderland
-            </span>
-          </div>
-          <nav className="hidden md:flex items-center gap-8 text-sm font-mono text-muted-foreground">
-            <a href="#capabilities" className="hover:text-primary transition">capabilities</a>
-            <a href="#copilot" className="hover:text-primary transition">co-pilot</a>
-            <a href="#stack" className="hover:text-primary transition">stack</a>
-            <a href="#deploy" className="hover:text-primary transition">deploy</a>
+      {/* HEADER */}
+      <header className="relative z-30 border-b border-white/5">
+        <div className="mx-auto max-w-7xl h-[72px] px-8 flex items-center justify-between">
+          <h1 className="font-display font-bold text-[22px] sm:text-[26px] tracking-[6px] uppercase">
+            Sen<span className="text-orange">tinel</span>
+          </h1>
+          <nav className="hidden md:flex items-center gap-10 font-mono text-[11px] tracking-[1.5px] uppercase text-[var(--text-muted)]">
+            <a href="#capabilities" className="hover:text-orange transition">Capabilities</a>
+            <a href="#copilot" className="hover:text-orange transition">Co-Pilot</a>
+            <a href="#stack" className="hover:text-orange transition">Stack</a>
+            <a href="#deploy" className="hover:text-orange transition">Deploy</a>
           </nav>
-          <button className="font-mono text-xs px-4 py-2 rounded bg-primary text-primary-foreground hover:shadow-glow transition-all">
-            request_demo →
-          </button>
+          <div className="font-mono text-[11px] text-[var(--text-dim)] tracking-[1px]">
+            BEAT 01 / SOC
+          </div>
         </div>
       </header>
 
-      {/* THREAT TICKER */}
-      <div className="border-b border-border bg-card/40 overflow-hidden">
+      {/* TYPEWRITER STRIP */}
+      <div className="relative z-20 border-b border-white/5">
+        <div className="mx-auto max-w-7xl px-8 py-5 flex items-center justify-center text-center">
+          <p className="font-sans text-[15px] md:text-[17px] leading-[1.9] text-[var(--text-muted)]">
+            Cyber attacks are scaling faster than humans can triage them.{" "}
+            <span className="tech-pill">SOC analysts</span> drown in alerts,{" "}
+            <span className="tech-pill">freshers</span> juggle{" "}
+            <span className="tech-pill">10+ tools</span>, and response slows.{" "}
+            <strong className="text-orange">SENTINEL is the unified layer.</strong>
+            <span className="cursor-blink ml-1 inline-block w-[2px] h-[18px] bg-orange align-text-bottom" />
+          </p>
+        </div>
+      </div>
+
+      {/* HERO — phone + side panels */}
+      <section className="relative z-10 px-8 pt-16 pb-24">
+        <div className="mx-auto max-w-7xl grid lg:grid-cols-[1fr_auto_1fr] gap-10 items-center">
+          {/* LEFT PANEL */}
+          <div className="flex flex-col gap-5 lg:items-end lg:text-right max-w-[440px] lg:ml-auto">
+            <InfoCard
+              align="right"
+              icon={
+                <svg viewBox="0 0 46 46" fill="none">
+                  <circle cx="23" cy="18" r="9" stroke="currentColor" strokeWidth="2" />
+                  <path
+                    d="M8 40c0-8 7-14 15-14s15 6 15 14"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              }
+              text="Blue Teams toggle between SIEM, IDS, EDR, threat-intel — losing precious seconds per alert."
+            />
+            <InfoCard
+              align="right"
+              icon={
+                <svg viewBox="0 0 46 46" fill="none">
+                  <rect x="6" y="8" width="34" height="22" rx="3" stroke="currentColor" strokeWidth="2" />
+                  <path d="M14 36h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <circle cx="23" cy="19" r="3" fill="currentColor" />
+                </svg>
+              }
+              text="Freshers need weeks to ramp on the SOC console. SENTINEL flattens that curve to days."
+            />
+            <InfoCard
+              align="right"
+              icon={
+                <svg viewBox="0 0 46 46" fill="none">
+                  <path d="M23 4l16 7v12c0 11-7 17-16 19-9-2-16-8-16-19V11l16-7z" stroke="currentColor" strokeWidth="2" />
+                  <path d="M16 23l5 5 9-10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              }
+              text="Drop-in alongside ELK / SIEM — no rip & replace. Bolt onto what your org already trusts."
+            />
+          </div>
+
+          {/* PHONE */}
+          <div className="flex justify-center animate-phone-reveal">
+            <div className="phone-shell relative w-[360px] h-[720px] overflow-hidden">
+              {/* notch */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[130px] h-[30px] bg-[#1A1A1F] rounded-b-[20px] z-30" />
+              {/* status */}
+              <div className="absolute top-0 left-0 right-0 h-12 px-7 flex items-center justify-between font-sans text-[13px] font-semibold text-[var(--phone-text)] z-20">
+                <span>9:41</span>
+                <span>●●●</span>
+              </div>
+
+              {/* screen */}
+              <div className="absolute top-12 left-3.5 right-3.5 bottom-[60px] overflow-hidden">
+                <div className="px-3 py-3">
+                  <div className="font-mono text-[9px] tracking-[2px] uppercase text-orange mb-1">
+                    01 — Live Console
+                  </div>
+                  <div className="font-display font-bold text-[15px] text-[var(--phone-text)] leading-tight mb-1">
+                    Threat Detection
+                  </div>
+                  <div className="inline-block font-mono text-[8px] tracking-[1.5px] uppercase text-[var(--phone-muted)] bg-[var(--phone-card)] border border-[var(--phone-border)] rounded px-[7px] py-[3px] mb-3">
+                    SIEM · ELK · IDS · IPS
+                  </div>
+
+                  {/* Radar */}
+                  <div className="relative w-[110px] h-[110px] mx-auto my-3">
+                    <div className="absolute inset-0 rounded-full border border-[var(--phone-border)]" />
+                    <div className="absolute top-[18px] left-[18px] w-[74px] h-[74px] rounded-full border border-[var(--phone-border)]" />
+                    <div className="absolute top-9 left-9 w-[38px] h-[38px] rounded-full border border-[var(--phone-border)]" />
+                    <div
+                      className="animate-radar absolute top-1/2 left-1/2 h-[2px] w-[55px]"
+                      style={{ background: "linear-gradient(90deg, var(--orange), transparent)" }}
+                    />
+                    <div className="animate-pulse-orange absolute w-2 h-2 rounded-full bg-[var(--spy-red)] top-[22px] right-[26px]" />
+                  </div>
+
+                  {/* Alert cards */}
+                  <AlertCard
+                    sev="CRIT"
+                    sevColor="text-spy-red"
+                    sevBg="bg-[oklch(0.55_0.20_27/0.10)]"
+                    name="WIN-DC-04"
+                    technique="T1021.002 → T1078"
+                    text="Lateral movement chain detected"
+                  />
+                  <AlertCard
+                    sev="HIGH"
+                    sevColor="text-orange"
+                    sevBg="bg-[var(--phone-card)]"
+                    name="srv-edge-01"
+                    technique="T1071 — C2 Beacon"
+                    text="Anomalous DNS exfil pattern"
+                  />
+                  <AlertCard
+                    sev="OK  "
+                    sevColor="text-verified"
+                    sevBg="bg-[oklch(0.62_0.16_150/0.10)]"
+                    name="WIN-DC-04"
+                    technique="isolate_host.yml"
+                    text="SOAR playbook executed in 1.2s"
+                  />
+
+                  {/* Confidence */}
+                  <div className="mt-3">
+                    <div className="flex items-center justify-between font-mono text-[8px] uppercase tracking-[1.5px] text-[var(--phone-muted)] mb-1">
+                      <span>Detection confidence</span>
+                      <span className="text-orange font-bold">96.4%</span>
+                    </div>
+                    <div className="h-[5px] rounded-full bg-[var(--phone-card)] overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-orange"
+                        style={{ width: "96.4%", transition: "width 1.5s ease-out" }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Scan */}
+                  <div className="relative my-3 overflow-hidden">
+                    <div
+                      className="animate-scan h-[2px] rounded-full"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, transparent, var(--orange), transparent)",
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Prompt bar */}
+                <div className="absolute bottom-3 left-3 right-3 bg-white border border-[var(--phone-border)] rounded-full px-3 py-2 flex items-center justify-between">
+                  <span className="font-sans text-[10px] text-[var(--phone-muted)]">
+                    Ask co-pilot anything…
+                  </span>
+                  <span className="w-6 h-6 rounded-full bg-orange flex items-center justify-center text-white text-[12px]">
+                    ↑
+                  </span>
+                </div>
+              </div>
+
+              {/* Tab bar */}
+              <div className="absolute bottom-0 left-3.5 right-3.5 h-[54px] flex items-center justify-around border-t border-[var(--phone-border)] bg-[var(--phone-bg)] rounded-b-[30px] z-10">
+                {[
+                  { l: "DET", active: true },
+                  { l: "ATT&CK" },
+                  { l: "SOAR" },
+                  { l: "HONEY" },
+                  { l: "REPORT" },
+                ].map((tab) => (
+                  <div
+                    key={tab.l}
+                    className={`flex flex-col items-center gap-0.5 ${
+                      tab.active ? "opacity-100 -translate-y-0.5" : "opacity-30"
+                    } transition`}
+                  >
+                    <div
+                      className={`w-2 h-2 rounded-sm ${
+                        tab.active ? "bg-orange" : "border border-[var(--phone-muted)]"
+                      }`}
+                    />
+                    <div
+                      className={`font-mono text-[7px] tracking-[0.5px] uppercase ${
+                        tab.active ? "text-orange font-semibold" : "text-[var(--phone-muted)]"
+                      }`}
+                    >
+                      {tab.l}
+                    </div>
+                    {tab.active && <div className="w-1 h-1 rounded-full bg-orange" />}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT PANEL */}
+          <div className="flex flex-col gap-5 lg:items-start lg:text-left max-w-[440px] lg:mr-auto">
+            <InfoCard
+              align="left"
+              icon={
+                <svg viewBox="0 0 46 46" fill="none">
+                  <circle cx="23" cy="23" r="18" stroke="currentColor" strokeWidth="2" />
+                  <path d="M14 23l6 6 12-14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              }
+              text="Real-time anomaly detection across petabytes of logs — surfaced in under 2 seconds."
+            />
+            <InfoCard
+              align="left"
+              icon={
+                <svg viewBox="0 0 46 46" fill="none">
+                  <rect x="6" y="10" width="34" height="26" rx="4" stroke="currentColor" strokeWidth="2" />
+                  <circle cx="16" cy="22" r="2.5" fill="currentColor" />
+                  <path d="M22 22h12M16 30h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              }
+              text="AI co-pilot explains every alert in plain English, mapped to MITRE ATT&CK techniques."
+            />
+            <InfoCard
+              align="left"
+              icon={
+                <svg viewBox="0 0 46 46" fill="none">
+                  <path d="M8 23l8 8 22-22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                  <circle cx="35" cy="32" r="6" stroke="currentColor" strokeWidth="2" />
+                </svg>
+              }
+              text="One-click SOAR playbooks, honeypot diversion, IDS/IPS rule deploy — all from one console."
+            />
+          </div>
+        </div>
+
+        {/* Tech pills */}
+        <div className="mt-14 flex flex-wrap items-center justify-center gap-3">
+          {["ELK Stack", "Suricata", "Zeek", "Wazuh", "Sigma Rules", "MITRE ATT&CK", "TheHive", "MISP"].map(
+            (t) => (
+              <span key={t} className="tech-pill">
+                {t}
+              </span>
+            ),
+          )}
+        </div>
+      </section>
+
+      {/* LIVE THREAT FEED */}
+      <section className="relative z-10 border-y border-white/5 bg-white/[0.02] overflow-hidden">
         <div className="flex items-center">
-          <div className="flex items-center gap-2 px-4 py-2 bg-destructive/15 border-r border-destructive/30 shrink-0">
-            <span className="w-2 h-2 rounded-full bg-destructive animate-pulse-glow" />
-            <span className="font-mono text-[11px] font-bold text-destructive uppercase tracking-widest">
-              Live Feed
+          <div className="shrink-0 px-5 py-3 border-r border-spy-red/30 bg-[oklch(0.55_0.20_27/0.10)] flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-spy-red animate-pulse-orange" />
+            <span className="font-mono text-[10px] font-bold uppercase tracking-[2px] text-spy-red">
+              Live Telemetry
             </span>
           </div>
           <div className="flex-1 overflow-hidden">
-            <div className="flex animate-ticker whitespace-nowrap font-mono text-xs py-2">
-              {[...ATTACK_FEED, ...ATTACK_FEED].map((e, i) => (
+            <div className="flex animate-ticker whitespace-nowrap font-mono text-[12px] py-3">
+              {[...FEED, ...FEED].map((e, i) => (
                 <span key={i} className="px-6 flex items-center gap-3">
-                  <span className="text-muted-foreground">[{e.time}]</span>
+                  <span className="text-[var(--text-dim)]">[{e.t}]</span>
                   <span
                     className={
                       e.sev.trim() === "CRIT"
-                        ? "text-destructive font-bold"
+                        ? "text-spy-red font-bold"
                         : e.sev.trim() === "HIGH"
-                          ? "text-[oklch(0.82_0.18_75)]"
-                          : "text-accent"
+                          ? "text-orange"
+                          : "text-[var(--text-muted)]"
                     }
                   >
                     {e.sev}
                   </span>
-                  <span className="text-foreground">{e.src}</span>
-                  <span className="text-muted-foreground">→ {e.evt}</span>
-                  <span className="text-border">|</span>
+                  <span className="text-[var(--foreground)]">{e.src}</span>
+                  <span className="text-[var(--text-muted)]">→ {e.evt}</span>
+                  <span className="text-[var(--text-dim)]">|</span>
                 </span>
               ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* HERO */}
-      <section className="relative max-w-7xl mx-auto px-6 pt-20 pb-24">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/5 mb-6">
-              <Radar className="w-3.5 h-3.5 text-primary" />
-              <span className="font-mono text-xs text-primary uppercase tracking-widest">
-                Unified SOC // SIEM-agnostic
-              </span>
-            </div>
-            <h1 className="font-display text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
-              One console.<br />
-              <span className="text-primary text-glow">Every threat.</span><br />
-              Zero blind spots.
-            </h1>
-            <p className="mt-6 text-lg text-muted-foreground max-w-xl leading-relaxed">
-              SENTINEL is the unified SOC platform that bolts onto your{" "}
-              <span className="text-accent font-mono">ELK Stack</span> or{" "}
-              <span className="text-accent font-mono">SIEM</span> — fusing detection,
-              an AI co-pilot, IDS/IPS and SOAR playbooks into a single workflow built
-              for Blue Teams and freshers alike.
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-4">
-              <button className="group font-mono text-sm px-6 py-3.5 rounded bg-gradient-cyber text-primary-foreground font-semibold shadow-glow hover:scale-[1.02] transition-transform inline-flex items-center gap-2">
-                launch_console
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition" />
-              </button>
-              <button className="font-mono text-sm px-6 py-3.5 rounded border border-border hover:border-primary text-foreground transition inline-flex items-center gap-2">
-                <Terminal className="w-4 h-4" />
-                view_architecture
-              </button>
-            </div>
-
-            <div className="mt-10 grid grid-cols-3 gap-6 max-w-lg">
-              {[
-                { v: "<2s", l: "mean detect" },
-                { v: "94%", l: "auto-triage" },
-                { v: "ATT&CK", l: "mapped" },
-              ].map((s) => (
-                <div key={s.l}>
-                  <div className="font-mono text-2xl md:text-3xl font-bold text-primary">{s.v}</div>
-                  <div className="font-mono text-xs text-muted-foreground uppercase mt-1">{s.l}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Terminal mockup */}
-          <div className="lg:col-span-5">
-            <div className="relative scanline rounded-xl border border-border terminal-surface shadow-glow overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-2.5 bg-black/30 border-b border-white/10">
-                <span className="w-2.5 h-2.5 rounded-full bg-[oklch(0.65_0.22_25)]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[oklch(0.78_0.18_75)]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[oklch(0.78_0.20_155)]" />
-                <span className="ml-3 font-mono text-xs text-white/50">
-                  sentinel@soc-node-01:~
-                </span>
-              </div>
-              <div className="p-5 font-mono text-sm space-y-2 min-h-[340px]">
-                <div className="text-white/50">$ <span className="text-white/90">{typed}</span><span className="animate-blink text-[oklch(0.85_0.22_155)]">▋</span></div>
-                <div className="text-[oklch(0.85_0.22_155)]">[✓] connected to elk://siem.local:9200</div>
-                <div className="text-[oklch(0.85_0.22_155)]">[✓] co-pilot online — model: sentinel-ai/v3</div>
-                <div className="text-[oklch(0.78_0.18_200)]">[~] ingesting 14,221 events/sec</div>
-                <div className="pt-3 text-white/40">┌─ ANOMALY DETECTED ──────────────┐</div>
-                <div className="text-[oklch(0.7_0.25_25)] font-bold flex items-center gap-2">
-                  <AlertTriangle className="w-3.5 h-3.5" />
-                  CRITICAL · lateral movement chain
-                </div>
-                <div className="text-white/70">  ↳ host: <span className="text-[oklch(0.78_0.18_200)]">WIN-DC-04</span></div>
-                <div className="text-white/70">  ↳ MITRE: <span className="text-[oklch(0.85_0.22_155)]">T1021.002 → T1078</span></div>
-                <div className="text-white/70">  ↳ playbook: <span className="text-[oklch(0.85_0.22_155)]">isolate_host.yml</span></div>
-                <div className="text-[oklch(0.85_0.22_155)] pt-2">[➜] response dispatched in 1.2s</div>
-                <div className="text-white/40">└─────────────────────────────────┘</div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* CAPABILITIES */}
-      <section id="capabilities" className="max-w-7xl mx-auto px-6 py-24 border-t border-border">
-        <div className="flex items-end justify-between flex-wrap gap-6 mb-14">
-          <div>
-            <div className="font-mono text-xs text-primary uppercase tracking-widest mb-3">
-              // 01 — capabilities
+      <section id="capabilities" className="relative z-10 px-8 py-28">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="font-mono text-[10px] tracking-[3px] uppercase text-orange mb-4">
+              02 / Capabilities
             </div>
-            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight max-w-2xl">
-              Built for the analyst who has{" "}
-              <span className="text-primary">three monitors and ten tools</span> open.
+            <h2 className="font-display font-bold text-4xl md:text-5xl tracking-[2px] uppercase leading-tight">
+              Detect. Decide.<br />
+              <span className="text-orange">Defend.</span>
             </h2>
+            <p className="mt-6 font-sans text-[15px] text-[var(--text-muted)] leading-relaxed">
+              The unified SOC platform that bolts onto any SIEM and gives every analyst — fresher
+              or veteran — superpowers.
+            </p>
           </div>
-          <p className="font-mono text-sm text-muted-foreground max-w-sm">
-            Stop pivoting between dashboards. SENTINEL fuses the SOC stack into a
-            single, opinionated workspace.
-          </p>
-        </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border rounded-lg overflow-hidden">
-          {[
-            {
-              i: Eye,
-              t: "Real-time Detection",
-              d: "Stream-correlate logs from ELK, Splunk, Wazuh. Anomalies surface in under 2 seconds.",
-            },
-            {
-              i: Bot,
-              t: "AI Co-Pilot",
-              d: "Natural-language triage. Ask 'why did this fire?' and get the full kill-chain explained.",
-            },
-            {
-              i: Network,
-              t: "IDS / IPS Fusion",
-              d: "Suricata + Zeek pipelines with one-click block, quarantine and rule deployment.",
-            },
-            {
-              i: GitBranch,
-              t: "SOAR Playbooks",
-              d: "Drag-and-drop response automation. Pre-built for ransomware, phishing, brute-force.",
-            },
-            {
-              i: ShieldAlert,
-              t: "MITRE ATT&CK Map",
-              d: "Every alert auto-tagged with tactics & techniques. Live coverage heatmap.",
-            },
-            {
-              i: Lock,
-              t: "Honeypot Diversion",
-              d: "Auto-redirect attackers into deception nets. Capture TTPs without exposing prod.",
-            },
-          ].map((f) => (
-            <div
-              key={t_(f.t)}
-              className="group bg-card p-8 hover:bg-secondary transition relative"
-            >
-              <div className="w-11 h-11 rounded grid place-items-center bg-primary/10 border border-primary/20 mb-5 group-hover:bg-primary/20 group-hover:shadow-glow transition">
-                <f.i className="w-5 h-5 text-primary" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              {
+                n: "01",
+                t: "Real-Time Detection",
+                d: "Stream-correlate logs from ELK, Splunk, Wazuh. Anomalies surface in under 2 seconds.",
+              },
+              {
+                n: "02",
+                t: "AI Co-Pilot",
+                d: "Conversational triage. Ask 'why did this fire?' and get the full kill-chain explained.",
+              },
+              {
+                n: "03",
+                t: "IDS / IPS Fusion",
+                d: "Suricata + Zeek pipelines with one-click block, quarantine and rule deployment.",
+              },
+              {
+                n: "04",
+                t: "SOAR Playbooks",
+                d: "Drag-and-drop response automation. Pre-built for ransomware, phishing, brute-force.",
+              },
+              {
+                n: "05",
+                t: "MITRE ATT&CK Map",
+                d: "Every alert auto-tagged with tactics & techniques. Live coverage heatmap.",
+              },
+              {
+                n: "06",
+                t: "Honeypot Diversion",
+                d: "Auto-redirect attackers into deception nets. Capture TTPs without exposing prod.",
+              },
+            ].map((c) => (
+              <div
+                key={c.n}
+                className="info-card relative p-7 hover:border-orange/40 hover:bg-white/[0.06] transition group"
+              >
+                <div className="flex items-start justify-between mb-5">
+                  <div className="font-mono text-[10px] tracking-[2px] text-orange">/ {c.n}</div>
+                  <div className="w-10 h-10 rounded border border-orange/30 bg-orange/10 grid place-items-center text-orange group-hover:bg-orange/20 transition">
+                    <span className="font-display font-bold text-sm">×</span>
+                  </div>
+                </div>
+                <h3 className="font-display font-bold text-[18px] tracking-[1px] uppercase mb-3 text-foreground">
+                  {c.t}
+                </h3>
+                <p className="font-sans text-[14px] text-[var(--text-muted)] leading-relaxed">
+                  {c.d}
+                </p>
               </div>
-              <h3 className="font-display text-xl font-semibold mb-2">{f.t}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{f.d}</p>
-              <div className="absolute top-6 right-6 font-mono text-[10px] text-muted-foreground/50">
-                /{String(1).padStart(2, "0")}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CO-PILOT BLOCK */}
-      <section id="copilot" className="max-w-7xl mx-auto px-6 py-24 border-t border-border">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="relative scanline rounded-lg border border-border bg-card overflow-hidden shadow-glow">
-            <div className="px-5 py-3 border-b border-border flex items-center gap-2 bg-secondary">
-              <Bot className="w-4 h-4 text-primary" />
-              <span className="font-mono text-xs">sentinel.copilot</span>
-              <span className="ml-auto w-2 h-2 rounded-full bg-primary animate-pulse-glow" />
+      <section id="copilot" className="relative z-10 px-8 py-28 border-t border-white/5">
+        <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-16 items-center">
+          {/* Terminal */}
+          <div className="relative rounded-2xl border border-white/10 bg-[#0E0E14] overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.6),_0_0_120px_var(--orange-glow)]">
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-black/40 border-b border-white/10">
+              <span className="w-2.5 h-2.5 rounded-full bg-spy-red" />
+              <span className="w-2.5 h-2.5 rounded-full bg-orange" />
+              <span className="w-2.5 h-2.5 rounded-full bg-verified" />
+              <span className="ml-3 font-mono text-[11px] text-white/40">
+                sentinel@soc-node-01:~
+              </span>
             </div>
-            <div className="p-6 space-y-4 font-mono text-sm">
-              <div className="text-muted-foreground"># analyst</div>
-              <div className="bg-secondary/60 rounded px-4 py-3 text-foreground">
-                why is host WIN-DC-04 flagged critical?
+            <div className="p-6 font-mono text-[13px] space-y-1.5 min-h-[360px]">
+              <div className="text-white/50">
+                $ <span className="text-white/90">{typed}</span>
+                <span className="cursor-blink text-orange">▋</span>
               </div>
-              <div className="text-primary"># sentinel</div>
-              <div className="bg-primary/5 border border-primary/20 rounded px-4 py-3 leading-relaxed text-foreground/90">
-                Detected <span className="text-destructive">3-stage chain</span>: SMB
-                lateral move → scheduled task → encoded PowerShell. Mapped to{" "}
-                <span className="text-primary">T1021 / T1053 / T1059</span>. Confidence{" "}
-                <span className="text-primary">96%</span>.<br />
-                <br />
-                <span className="text-accent">Recommended:</span> isolate_host.yml +
-                disable AD account. Run now?
-              </div>
-              <div className="flex gap-2">
-                <button className="px-3 py-1.5 rounded bg-primary text-primary-foreground text-xs font-bold">
-                  EXECUTE
-                </button>
-                <button className="px-3 py-1.5 rounded border border-border text-xs">
-                  Investigate
-                </button>
-              </div>
+              <div className="text-orange">[✓] connected to elk://siem.local:9200</div>
+              <div className="text-orange">[✓] co-pilot online — sentinel-ai/v3</div>
+              <div className="text-white/60">[~] ingesting 14,221 events/sec</div>
+              <div className="pt-3 text-white/40">┌─ ANOMALY DETECTED ─────────────┐</div>
+              <div className="text-spy-red font-bold">│ CRIT · lateral movement chain  │</div>
+              <div className="text-white/70">│  ↳ host: <span className="text-orange">WIN-DC-04</span></div>
+              <div className="text-white/70">│  ↳ MITRE: <span className="text-orange">T1021.002 → T1078</span></div>
+              <div className="text-white/70">│  ↳ playbook: <span className="text-orange">isolate_host.yml</span></div>
+              <div className="text-orange pt-1">[➜] response dispatched in 1.2s</div>
+              <div className="text-white/40">└────────────────────────────────┘</div>
+              <div className="pt-2 text-verified">[✓] honeypot redirect armed · attacker IP 203.0.113.7</div>
             </div>
           </div>
 
+          {/* Copy */}
           <div>
-            <div className="font-mono text-xs text-primary uppercase tracking-widest mb-3">
-              // 02 — co-pilot
+            <div className="font-mono text-[10px] tracking-[3px] uppercase text-orange mb-4">
+              03 / Co-Pilot
             </div>
-            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight">
-              Your <span className="text-primary text-glow">L3 analyst</span>,
-              available at 3 AM.
+            <h2 className="font-display font-bold text-4xl md:text-5xl tracking-[2px] uppercase leading-tight">
+              Your L3 analyst.<br />
+              <span className="text-orange">Available at 3 AM.</span>
             </h2>
-            <p className="mt-5 text-muted-foreground text-lg leading-relaxed">
-              Freshers ramp up in days, not months. The co-pilot translates raw
-              telemetry into plain English, suggests the next step, and can
-              auto-execute SOAR playbooks with human-in-the-loop approval.
+            <p className="mt-6 font-sans text-[15px] text-[var(--text-muted)] leading-relaxed">
+              The co-pilot translates raw telemetry into plain English, suggests the next step,
+              and can auto-execute SOAR playbooks with human-in-the-loop approval. Freshers ramp
+              up in days, not months.
             </p>
             <ul className="mt-8 space-y-4">
               {[
@@ -333,92 +473,103 @@ function Landing() {
                 "Anomaly explanations + recommended response actions",
                 "Honeypot interaction summaries in real time",
               ].map((x) => (
-                <li key={x} className="flex items-start gap-3">
-                  <Zap className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                <li key={x} className="flex items-start gap-3 font-sans text-[14px]">
+                  <span className="mt-2 w-1.5 h-1.5 rounded-full bg-orange shrink-0" />
                   <span className="text-foreground/90">{x}</span>
                 </li>
               ))}
             </ul>
+            <div className="mt-8 flex flex-wrap gap-2">
+              <span className="tech-pill">MITRE ATT&CK</span>
+              <span className="tech-pill">SOAR</span>
+              <span className="tech-pill">Honeypot</span>
+              <span className="tech-pill">IDS/IPS</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* STACK / INTEGRATIONS */}
-      <section id="stack" className="max-w-7xl mx-auto px-6 py-24 border-t border-border">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="font-mono text-xs text-primary uppercase tracking-widest mb-3">
-            // 03 — drop-in stack
-          </div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight">
-            Plays nice with your existing arsenal.
-          </h2>
-          <p className="mt-5 text-muted-foreground">
-            SIEM-agnostic connectors. Deploy alongside what you already trust.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-lg overflow-hidden">
-          {[
-            { i: Database, n: "ELK Stack", s: "Elasticsearch · Kibana" },
-            { i: Activity, n: "Splunk", s: "HEC + REST" },
-            { i: Shield, n: "Wazuh", s: "Agent forwarding" },
-            { i: Network, n: "Suricata", s: "IDS / IPS engine" },
-            { i: Cpu, n: "Zeek", s: "Network telemetry" },
-            { i: Terminal, n: "Sigma Rules", s: "Universal detection" },
-            { i: GitBranch, n: "TheHive", s: "Case mgmt" },
-            { i: Radar, n: "MISP", s: "Threat intel" },
-          ].map((x) => (
-            <div
-              key={x.n}
-              className="bg-card p-6 hover:bg-secondary transition flex flex-col items-center text-center gap-2"
-            >
-              <x.i className="w-6 h-6 text-accent mb-2" />
-              <div className="font-mono font-semibold">{x.n}</div>
-              <div className="font-mono text-xs text-muted-foreground">{x.s}</div>
+      {/* STACK */}
+      <section id="stack" className="relative z-10 px-8 py-28 border-t border-white/5">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <div className="font-mono text-[10px] tracking-[3px] uppercase text-orange mb-4">
+              04 / Stack
             </div>
-          ))}
+            <h2 className="font-display font-bold text-4xl md:text-5xl tracking-[2px] uppercase leading-tight">
+              Drops in.<br />
+              <span className="text-orange">Doesn't disrupt.</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 rounded-xl overflow-hidden border border-white/10">
+            {[
+              { n: "ELK Stack", s: "Elasticsearch · Kibana" },
+              { n: "Splunk", s: "HEC + REST" },
+              { n: "Wazuh", s: "Agent forwarding" },
+              { n: "Suricata", s: "IDS / IPS engine" },
+              { n: "Zeek", s: "Network telemetry" },
+              { n: "Sigma Rules", s: "Universal detection" },
+              { n: "TheHive", s: "Case management" },
+              { n: "MISP", s: "Threat intel" },
+            ].map((x) => (
+              <div
+                key={x.n}
+                className="bg-[#0E0E14] hover:bg-[#15151D] p-7 flex flex-col items-center text-center gap-2 transition"
+              >
+                <div className="w-10 h-10 rounded grid place-items-center border border-orange/30 bg-orange/10 text-orange mb-2">
+                  <span className="font-display font-bold text-xs">{x.n.slice(0, 2).toUpperCase()}</span>
+                </div>
+                <div className="font-display font-bold text-sm tracking-[1px] uppercase">{x.n}</div>
+                <div className="font-mono text-[10px] tracking-[1px] text-[var(--text-muted)]">
+                  {x.s}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section id="deploy" className="max-w-7xl mx-auto px-6 py-24 border-t border-border">
-        <div className="relative rounded-2xl border border-primary/30 bg-card overflow-hidden p-12 md:p-16 text-center scanline">
+      <section id="deploy" className="relative z-10 px-8 py-28 border-t border-white/5">
+        <div className="mx-auto max-w-5xl text-center relative">
           <div
-            className="absolute inset-0 -z-10 opacity-50"
-            style={{ background: "var(--gradient-glow)" }}
+            className="ambient-glow"
+            style={{ width: 600, height: 600, top: -150, left: "50%", transform: "translateX(-50%)", opacity: 0.18 }}
           />
-          <div className="font-mono text-xs text-primary uppercase tracking-widest mb-4">
-            // initiate_deployment
-          </div>
-          <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight max-w-3xl mx-auto">
-            The next attack is already in your logs.<br />
-            <span className="text-primary text-glow">See it first.</span>
-          </h2>
-          <p className="mt-6 text-muted-foreground max-w-xl mx-auto">
-            Built for InBorderland 3.0. Engineered for every Blue Team that
-            refuses to lose to latency.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-4 justify-center">
-            <button className="font-mono text-sm px-7 py-4 rounded bg-gradient-cyber text-primary-foreground font-bold shadow-glow hover:scale-[1.02] transition">
-              ./deploy --prod
-            </button>
-            <button className="font-mono text-sm px-7 py-4 rounded border border-border hover:border-primary transition">
-              read_whitepaper.pdf
-            </button>
+          <div className="relative">
+            <div className="font-mono text-[10px] tracking-[3px] uppercase text-orange mb-4">
+              // initiate_deployment
+            </div>
+            <h2 className="font-display font-bold text-5xl md:text-7xl tracking-[3px] uppercase leading-[1.05]">
+              The next attack<br />
+              is <span className="text-orange">already</span><br />
+              in your logs.
+            </h2>
+            <p className="mt-8 font-sans text-[16px] text-[var(--text-muted)] max-w-xl mx-auto leading-relaxed">
+              Built for InBorderland 3.0. Engineered for every Blue Team that refuses to lose to latency.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4 justify-center">
+              <button className="font-mono text-[12px] tracking-[1.5px] uppercase font-bold px-8 py-4 rounded bg-orange text-white shadow-[0_10px_40px_var(--orange-glow)] hover:scale-[1.02] transition">
+                ./deploy --prod
+              </button>
+              <button className="font-mono text-[12px] tracking-[1.5px] uppercase px-8 py-4 rounded border border-white/15 hover:border-orange transition text-foreground">
+                read_whitepaper.pdf
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-border py-10">
-        <div className="max-w-7xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <Shield className="w-4 h-4 text-primary" />
-            SENTINEL_SOC // © {new Date().getFullYear()} — InBorderland 3.0 submission
+      <footer className="relative z-10 border-t border-white/5 py-8">
+        <div className="mx-auto max-w-7xl px-8 flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] text-[var(--text-dim)]">
+          <div className="font-display tracking-[3px] uppercase">
+            Sen<span className="text-orange">tinel</span>
           </div>
-          <div className="flex items-center gap-6">
-            <span>status: <span className="text-primary">● operational</span></span>
-            <span>region: edge-global</span>
+          <div>InBorderland 3.0 · © {new Date().getFullYear()}</div>
+          <div>
+            status: <span className="text-orange">● operational</span>
           </div>
         </div>
       </footer>
@@ -426,6 +577,60 @@ function Landing() {
   );
 }
 
-function t_(s: string) {
-  return s;
+/* ============== Sub-components ============== */
+
+function InfoCard({
+  icon,
+  text,
+  align,
+}: {
+  icon: React.ReactNode;
+  text: string;
+  align: "left" | "right";
+}) {
+  return (
+    <div
+      className={`info-card flex items-center gap-4 p-5 ${
+        align === "right" ? "flex-row-reverse text-right" : ""
+      }`}
+    >
+      <div className="shrink-0 w-[46px] h-[46px] text-orange">{icon}</div>
+      <div className="font-sans text-[14px] leading-[1.5] text-foreground/95 font-medium">{text}</div>
+    </div>
+  );
+}
+
+function AlertCard({
+  sev,
+  sevColor,
+  sevBg,
+  name,
+  technique,
+  text,
+}: {
+  sev: string;
+  sevColor: string;
+  sevBg: string;
+  name: string;
+  technique: string;
+  text: string;
+}) {
+  return (
+    <div className="bg-[var(--phone-card)] border border-[var(--phone-border)] rounded-[10px] p-2.5 mb-2 flex items-start gap-2.5">
+      <div
+        className={`shrink-0 ${sevBg} ${sevColor} font-mono text-[8px] font-bold tracking-[1px] px-2 py-1.5 rounded`}
+      >
+        {sev}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between gap-2 mb-0.5">
+          <span className="font-mono text-[10px] font-semibold text-[var(--phone-text)] truncate">
+            {name}
+          </span>
+          <span className="font-mono text-[7px] text-orange shrink-0">{technique}</span>
+        </div>
+        <div className="font-sans text-[10px] text-[var(--phone-muted)] leading-tight">{text}</div>
+      </div>
+    </div>
+  );
 }
