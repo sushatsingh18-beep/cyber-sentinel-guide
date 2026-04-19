@@ -89,6 +89,28 @@ function Landing() {
         </div>
       </div>
 
+      {/* KPI STRIP */}
+      <div className="relative z-20 border-b border-border bg-[var(--phone-card)]">
+        <div className="mx-auto max-w-7xl px-8 py-7 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { k: "< 2s", v: "Mean detect time", sub: "across petabyte logs" },
+            { k: "14k/s", v: "Events ingested", sub: "ELK · Splunk · Wazuh" },
+            { k: "96.4%", v: "Detection accuracy", sub: "MITRE-mapped" },
+            { k: "1.2s", v: "SOAR response", sub: "auto-playbook dispatch" },
+          ].map((m) => (
+            <div key={m.v} className="text-center md:text-left">
+              <div className="font-display font-bold text-2xl md:text-3xl text-orange tracking-tight">
+                {m.k}
+              </div>
+              <div className="font-sans text-[13px] font-semibold text-foreground mt-1">{m.v}</div>
+              <div className="font-mono text-[10px] uppercase tracking-[1.5px] text-[var(--text-dim)] mt-0.5">
+                {m.sub}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* HERO — phone + side panels */}
       <section className="relative z-10 px-8 pt-16 pb-24">
         <div className="mx-auto max-w-7xl grid lg:grid-cols-[1fr_auto_1fr] gap-10 items-center">
@@ -578,6 +600,103 @@ function Landing() {
         </div>
       </section>
 
+      {/* MITRE ATT&CK HEATMAP */}
+      <section className="relative z-10 px-8 py-28 border-t border-border">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid lg:grid-cols-[1fr_1.3fr] gap-14 items-center">
+            <div>
+              <div className="font-mono text-[10px] tracking-[3px] uppercase text-orange mb-4">
+                05 / MITRE ATT&CK
+              </div>
+              <h2 className="font-display font-bold text-4xl md:text-5xl tracking-[2px] uppercase leading-tight gradient-heading">
+                Live coverage<br />heatmap.
+              </h2>
+              <p className="mt-6 font-sans text-[15px] text-[var(--text-muted)] leading-relaxed">
+                Every detection auto-tags to a tactic and technique. See exactly which corners of the
+                kill chain you cover — and which still need rules.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-4 font-mono text-[11px] uppercase tracking-[1.5px]">
+                <span className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-sm heat-cell-hot" /> Active
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-sm heat-cell-warm" /> Covered
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-sm heat-cell-mid" /> Partial
+                </span>
+                <span className="flex items-center gap-2 text-[var(--text-dim)]">
+                  <span className="w-3 h-3 rounded-sm bg-[oklch(0.55_0.16_40/0.08)]" /> Gap
+                </span>
+              </div>
+            </div>
+
+            <div className="info-card p-6">
+              <div className="grid grid-cols-7 gap-2 mb-4">
+                {["Recon", "Init Acc", "Exec", "Persist", "PrivEsc", "Defense", "Cred Acc"].map((t) => (
+                  <div key={t} className="font-mono text-[8px] tracking-[1px] uppercase text-[var(--text-muted)] text-center truncate">
+                    {t}
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-7 gap-2">
+                {Array.from({ length: 70 }).map((_, i) => {
+                  const r = (i * 17) % 100;
+                  const cls =
+                    r < 12 ? "heat-cell heat-cell-hot" :
+                    r < 40 ? "heat-cell heat-cell-warm" :
+                    r < 65 ? "heat-cell heat-cell-mid" : "heat-cell";
+                  return <div key={i} className={cls} />;
+                })}
+              </div>
+              <div className="mt-5 pt-4 border-t border-border flex items-center justify-between font-mono text-[11px]">
+                <span className="text-[var(--text-muted)]">Coverage</span>
+                <span className="text-orange font-bold">87 / 110 techniques</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SOC WORKFLOW TIMELINE */}
+      <section className="relative z-10 px-8 py-28 border-t border-border">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="font-mono text-[10px] tracking-[3px] uppercase text-orange mb-4">
+              06 / Workflow
+            </div>
+            <h2 className="font-display font-bold text-4xl md:text-5xl tracking-[2px] uppercase leading-tight gradient-heading">
+              From log to lockdown<br />in under 2 seconds.
+            </h2>
+          </div>
+
+          <div className="relative">
+            <div className="hidden md:block absolute top-7 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-orange to-transparent" />
+            <div className="grid md:grid-cols-4 gap-8">
+              {[
+                { t: "00:00.00", l: "INGEST", d: "Logs stream from ELK, Suricata, Wazuh agents." },
+                { t: "00:00.84", l: "DETECT", d: "Sigma rules + AI anomaly model fire correlated alert." },
+                { t: "00:01.20", l: "EXPLAIN", d: "Co-pilot maps to MITRE ATT&CK, narrates kill chain." },
+                { t: "00:01.97", l: "RESPOND", d: "SOAR playbook isolates host, redirects attacker to honeypot." },
+              ].map((s, i) => (
+                <div key={s.l} className="relative flex flex-col items-center text-center md:items-start md:text-left">
+                  <div className="timeline-dot mb-5" />
+                  <div className="font-mono text-[10px] tracking-[2px] text-[var(--text-dim)] mb-1">
+                    STEP 0{i + 1} · {s.t}
+                  </div>
+                  <div className="font-display font-bold text-[18px] tracking-[2px] uppercase text-orange mb-2">
+                    {s.l}
+                  </div>
+                  <p className="font-sans text-[13px] text-[var(--text-muted)] leading-relaxed">
+                    {s.d}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section id="deploy" className="relative z-10 px-8 py-28 border-t border-border">
         <div className="mx-auto max-w-5xl text-center relative">
@@ -598,7 +717,7 @@ function Landing() {
               Built for InBorderland 3.0. Engineered for every Blue Team that refuses to lose to latency.
             </p>
             <div className="mt-10 flex flex-wrap gap-4 justify-center">
-              <button className="font-mono text-[12px] tracking-[1.5px] uppercase font-bold px-8 py-4 rounded bg-orange text-white shadow-[0_10px_40px_var(--orange-glow)] hover:scale-[1.02] transition">
+              <button className="cta-btn-primary font-mono text-[12px] tracking-[1.5px] uppercase font-bold px-8 py-4 rounded text-white">
                 ./deploy --prod
               </button>
               <button className="font-mono text-[12px] tracking-[1.5px] uppercase px-8 py-4 rounded border border-orange/30 hover:border-orange hover:bg-orange/5 transition text-foreground">
