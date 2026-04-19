@@ -371,41 +371,89 @@ function Landing() {
                 n: "01",
                 t: "Real-Time Detection",
                 d: "Stream-correlate logs from ELK, Splunk, Wazuh. Anomalies surface in under 2 seconds.",
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="M16 16l5 5" />
+                    <path d="M8 11h2l1.5-3 2 6 1.5-3h2" />
+                  </svg>
+                ),
               },
               {
                 n: "02",
                 t: "AI Co-Pilot",
                 d: "Conversational triage. Ask 'why did this fire?' and get the full kill-chain explained.",
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="4" y="6" width="16" height="12" rx="3" />
+                    <circle cx="9" cy="12" r="1.2" fill="currentColor" />
+                    <circle cx="15" cy="12" r="1.2" fill="currentColor" />
+                    <path d="M12 3v3M8 18l-2 3M16 18l2 3" />
+                  </svg>
+                ),
               },
               {
                 n: "03",
                 t: "IDS / IPS Fusion",
                 d: "Suricata + Zeek pipelines with one-click block, quarantine and rule deployment.",
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 3l8 4v5c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7l8-4z" />
+                    <path d="M9 12l2 2 4-4" />
+                  </svg>
+                ),
               },
               {
                 n: "04",
                 t: "SOAR Playbooks",
                 d: "Drag-and-drop response automation. Pre-built for ransomware, phishing, brute-force.",
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="6" height="6" rx="1.5" />
+                    <rect x="15" y="4" width="6" height="6" rx="1.5" />
+                    <rect x="9" y="14" width="6" height="6" rx="1.5" />
+                    <path d="M6 10v2h12v2M12 14v-2" />
+                  </svg>
+                ),
               },
               {
                 n: "05",
                 t: "MITRE ATT&CK Map",
                 d: "Every alert auto-tagged with tactics & techniques. Live coverage heatmap.",
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="6" height="6" rx="1" />
+                    <rect x="11" y="3" width="6" height="6" rx="1" />
+                    <rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" fillOpacity="0.3" />
+                    <rect x="11" y="11" width="6" height="6" rx="1" />
+                    <rect x="3" y="19" width="6" height="2" rx="1" />
+                    <rect x="11" y="19" width="6" height="2" rx="1" fill="currentColor" fillOpacity="0.3" />
+                    <rect x="19" y="3" width="2" height="14" rx="1" />
+                  </svg>
+                ),
               },
               {
                 n: "06",
                 t: "Honeypot Diversion",
                 d: "Auto-redirect attackers into deception nets. Capture TTPs without exposing prod.",
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 8h14l-1 4H6L5 8z" />
+                    <path d="M6 12h12v6a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-6z" />
+                    <path d="M9 8V6a3 3 0 0 1 6 0v2" />
+                    <circle cx="12" cy="16" r="1.5" fill="currentColor" />
+                  </svg>
+                ),
               },
             ].map((c) => (
               <div
                 key={c.n}
-                className="info-card relative p-7 hover:border-orange/40 hover:bg-white/[0.06] transition group"
+                className="info-card relative p-7 hover:border-orange/50 hover:-translate-y-1 transition-all duration-300 group"
               >
                 <div className="flex items-start justify-between mb-5">
                   <div className="font-mono text-[10px] tracking-[2px] text-orange">/ {c.n}</div>
-                  <div className="w-10 h-10 rounded border border-orange/30 bg-orange/10 grid place-items-center text-orange group-hover:bg-orange/20 transition">
-                    <span className="font-display font-bold text-sm">×</span>
+                  <div className="w-11 h-11 rounded-lg border border-orange/30 bg-orange/8 grid place-items-center text-orange group-hover:bg-orange/15 group-hover:border-orange/50 transition">
+                    <div className="w-5 h-5">{c.icon}</div>
                   </div>
                 </div>
                 <h3 className="font-display font-bold text-[18px] tracking-[1px] uppercase mb-3 text-foreground">
