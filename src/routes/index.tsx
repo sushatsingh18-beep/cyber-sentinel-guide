@@ -58,7 +58,7 @@ function Landing() {
       />
 
       {/* HEADER */}
-      <header className="relative z-30 border-b border-white/5">
+      <header className="relative z-30 border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto max-w-7xl h-[72px] px-8 flex items-center justify-between">
           <h1 className="font-display font-bold text-[22px] sm:text-[26px] tracking-[6px] uppercase">
             Sen<span className="text-orange">tinel</span>
@@ -76,7 +76,7 @@ function Landing() {
       </header>
 
       {/* TYPEWRITER STRIP */}
-      <div className="relative z-20 border-b border-white/5">
+      <div className="relative z-20 border-b border-border">
         <div className="mx-auto max-w-7xl px-8 py-5 flex items-center justify-center text-center">
           <p className="font-sans text-[15px] md:text-[17px] leading-[1.9] text-[var(--text-muted)]">
             Cyber attacks are scaling faster than humans can triage them.{" "}
@@ -469,7 +469,7 @@ function Landing() {
       </section>
 
       {/* CO-PILOT BLOCK */}
-      <section id="copilot" className="relative z-10 px-8 py-28 border-t border-white/5">
+      <section id="copilot" className="relative z-10 px-8 py-28 border-t border-border">
         <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-16 items-center">
           {/* Terminal */}
           <div className="relative rounded-2xl border border-white/10 bg-[#0E0E14] overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.6),_0_0_120px_var(--orange-glow)]">
@@ -538,7 +538,7 @@ function Landing() {
       </section>
 
       {/* STACK */}
-      <section id="stack" className="relative z-10 px-8 py-28 border-t border-white/5">
+      <section id="stack" className="relative z-10 px-8 py-28 border-t border-border">
         <div className="mx-auto max-w-7xl">
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="font-mono text-[10px] tracking-[3px] uppercase text-orange mb-4">
@@ -550,7 +550,7 @@ function Landing() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 rounded-xl overflow-hidden border border-white/10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[var(--border)] rounded-xl overflow-hidden border border-border">
             {[
               { n: "ELK Stack", s: "Elasticsearch · Kibana" },
               { n: "Splunk", s: "HEC + REST" },
@@ -563,12 +563,12 @@ function Landing() {
             ].map((x) => (
               <div
                 key={x.n}
-                className="bg-[#0E0E14] hover:bg-[#15151D] p-7 flex flex-col items-center text-center gap-2 transition"
+                className="bg-card hover:bg-[var(--phone-card)] p-7 flex flex-col items-center text-center gap-2 transition"
               >
-                <div className="w-10 h-10 rounded grid place-items-center border border-orange/30 bg-orange/10 text-orange mb-2">
+                <div className="w-11 h-11 rounded grid place-items-center border border-orange/30 bg-orange/10 text-orange mb-2">
                   <span className="font-display font-bold text-xs">{x.n.slice(0, 2).toUpperCase()}</span>
                 </div>
-                <div className="font-display font-bold text-sm tracking-[1px] uppercase">{x.n}</div>
+                <div className="font-display font-bold text-sm tracking-[1px] uppercase text-foreground">{x.n}</div>
                 <div className="font-mono text-[10px] tracking-[1px] text-[var(--text-muted)]">
                   {x.s}
                 </div>
@@ -579,7 +579,7 @@ function Landing() {
       </section>
 
       {/* CTA */}
-      <section id="deploy" className="relative z-10 px-8 py-28 border-t border-white/5">
+      <section id="deploy" className="relative z-10 px-8 py-28 border-t border-border">
         <div className="mx-auto max-w-5xl text-center relative">
           <div
             className="ambient-glow"
@@ -601,7 +601,7 @@ function Landing() {
               <button className="font-mono text-[12px] tracking-[1.5px] uppercase font-bold px-8 py-4 rounded bg-orange text-white shadow-[0_10px_40px_var(--orange-glow)] hover:scale-[1.02] transition">
                 ./deploy --prod
               </button>
-              <button className="font-mono text-[12px] tracking-[1.5px] uppercase px-8 py-4 rounded border border-white/15 hover:border-orange transition text-foreground">
+              <button className="font-mono text-[12px] tracking-[1.5px] uppercase px-8 py-4 rounded border border-orange/30 hover:border-orange hover:bg-orange/5 transition text-foreground">
                 read_whitepaper.pdf
               </button>
             </div>
@@ -610,7 +610,7 @@ function Landing() {
       </section>
 
       {/* FOOTER */}
-      <footer className="relative z-10 border-t border-white/5 py-8">
+      <footer className="relative z-10 border-t border-border py-8">
         <div className="mx-auto max-w-7xl px-8 flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] text-[var(--text-dim)]">
           <div className="font-display tracking-[3px] uppercase">
             Sen<span className="text-orange">tinel</span>
