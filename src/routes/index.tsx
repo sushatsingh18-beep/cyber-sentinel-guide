@@ -697,34 +697,34 @@ function Landing() {
         </div>
       </section>
 
-      {/* CTA — bold dark band */}
-      <section id="deploy" className="relative z-10 border-t border-border overflow-hidden bg-[#0A0A0F] text-white">
+      {/* CTA — bold light band */}
+      <section id="deploy" className="relative z-10 border-t border-border overflow-hidden bg-background text-foreground">
         <div
           className="ambient-glow"
-          style={{ width: 700, height: 700, top: -200, left: "10%", opacity: 0.35 }}
+          style={{ width: 700, height: 700, top: -200, left: "10%", opacity: 0.18 }}
         />
         <div
           className="ambient-glow"
-          style={{ width: 600, height: 600, bottom: -250, right: "5%", opacity: 0.25, background: "var(--spy-red)" }}
+          style={{ width: 600, height: 600, bottom: -250, right: "5%", opacity: 0.14, background: "var(--spy-red)" }}
         />
         <div className="relative mx-auto max-w-6xl px-8 py-32 md:py-40">
           <div className="font-mono text-[11px] tracking-[4px] uppercase text-orange mb-6">
             // initiate_deployment
           </div>
-          <h2 className="font-sans font-bold text-[72px] md:text-[120px] lg:text-[148px] leading-[0.92] tracking-[-0.04em]">
+          <h2 className="font-sans font-bold text-[72px] md:text-[120px] lg:text-[148px] leading-[0.92] tracking-[-0.04em] text-foreground">
             The next<br />
             attack is<br />
             <span className="text-orange">already</span> in<br />
             your logs.
           </h2>
-          <p className="mt-10 font-sans text-[18px] md:text-[20px] text-white/70 max-w-2xl leading-relaxed">
+          <p className="mt-10 font-sans text-[18px] md:text-[20px] text-foreground/70 max-w-2xl leading-relaxed">
             Built for InBorderland 3.0. Engineered for every Blue Team that refuses to lose to latency.
           </p>
           <div className="mt-12 flex flex-wrap gap-4">
             <button className="cta-btn-primary font-mono text-[13px] tracking-[2px] uppercase font-bold px-10 py-5 rounded-md text-white">
               ./deploy --prod
             </button>
-            <button className="font-mono text-[13px] tracking-[2px] uppercase px-10 py-5 rounded-md border border-white/25 hover:border-orange hover:bg-orange/10 transition text-white">
+            <button className="font-mono text-[13px] tracking-[2px] uppercase px-10 py-5 rounded-md border border-foreground/25 hover:border-orange hover:bg-orange/10 transition text-foreground">
               read_whitepaper.pdf
             </button>
           </div>
