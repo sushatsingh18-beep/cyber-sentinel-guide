@@ -314,7 +314,7 @@ function Landing() {
       </section>
 
       {/* LIVE THREAT FEED */}
-      <section className="relative z-10 border-y border-white/5 bg-white/[0.02] overflow-hidden">
+      <section className="relative z-10 border-y border-border bg-[var(--phone-card)] overflow-hidden">
         <div className="flex items-center">
           <div className="shrink-0 px-5 py-3 border-r border-spy-red/30 bg-[oklch(0.55_0.20_27/0.10)] flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-spy-red animate-pulse-orange" />
